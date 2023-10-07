@@ -55,16 +55,14 @@ size_t DeviceManager::loadDevices() {
 
 		if (device->isOpen()) {
 			auto caps = device->getCaps();
-			spdlog::info("------------ Device Information ---------");
-			spdlog::info(L"Name: {}", device->getProductString());
-			spdlog::info(L"Input Report Length: {}", caps.InputReportByteLength);
-			spdlog::info(L"Output Report Length: {}", caps.OutputReportByteLength);
-			spdlog::info(L"Feature Report Length: {}", caps.FeatureReportByteLength);
-			spdlog::info(L"Link Collection Nodes: {}", caps.NumberLinkCollectionNodes);
-			spdlog::info(L"Input Button Caps: {}", caps.NumberInputButtonCaps);
-			spdlog::info(L"Output Button Caps: {}", caps.NumberOutputButtonCaps);
-
-			device->getUsages(HID_USAGE_PAGE_GAME, 0);
+			spdlog::trace("------------ Device Information ---------");
+			spdlog::trace(L"Name: {}", device->getProductString());
+			spdlog::trace(L"Input Report Length: {}", caps.InputReportByteLength);
+			spdlog::trace(L"Output Report Length: {}", caps.OutputReportByteLength);
+			spdlog::trace(L"Feature Report Length: {}", caps.FeatureReportByteLength);
+			spdlog::trace(L"Link Collection Nodes: {}", caps.NumberLinkCollectionNodes);
+			spdlog::trace(L"Input Button Caps: {}", caps.NumberInputButtonCaps);
+			spdlog::trace(L"Output Button Caps: {}", caps.NumberOutputButtonCaps);
 		}
 
 		spdlog::debug("Finished with HID endpoint #{}", i);

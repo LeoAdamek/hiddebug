@@ -3,19 +3,28 @@
 
 #include "spdlog/spdlog.h"
 #include "DeviceManager.h"
+#include "RootWindow.h"
+
+static bool done;
 
 int main(const int argc, const char** argv) {
-	spdlog::set_level(spdlog::level::trace);
-	spdlog::info("Human Interface Device Debuggerator");
 
-	auto deviceManager = new DeviceManager();
+	if (Ui::Startup() == Ui::UI_INIT_OK) {
+		while (!done) {
+			MSG msg;
 
-	size_t deviceCount = deviceManager->loadDevices();
+			while (::PeekMessage(&msg, nullptr, 0U, 0U, PM_REMOVE)) {
+				::TranslateMessage(&msg);
+				::DispatchMessage(&msg);
+				if (msg.message == WM_QUIT) {
+					done = true;
+				}
+			}
 
-	if (deviceCount == 0) {
-		spdlog::error("No HIDs were loaded");
-	} else {
-		spdlog::info("Loaded {} HIDs", deviceCount);
+			if (done) {
+				break;
+			}
+		}
 	}
 
 	return 0;
