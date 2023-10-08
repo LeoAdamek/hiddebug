@@ -1,5 +1,4 @@
 #include "HiDevice.h"
-#include "spdlog/spdlog.h"
 
 #include <string>
 #include <assert.h>
@@ -28,16 +27,16 @@ void HiDevice::setup() {
 	SetupDiGetDeviceInterfaceDetail(deviceInfo, &interfaces, NULL, 0, &reqSz, NULL);
 	bufferSz = reqSz;
 
-	spdlog::trace("Loading device interface detail");
+	//spdlog::trace("Loading device interface detail");
 
 	detail = (PSP_DEVICE_INTERFACE_DETAIL_DATA)malloc(bufferSz);
 	detail->cbSize = sizeof(SP_DEVICE_INTERFACE_DETAIL_DATA);
 	ZeroMemory(detail->DevicePath, bufferSz);
 	SetupDiGetDeviceInterfaceDetail(deviceInfo, &interfaces, detail, bufferSz, &reqSz, NULL);
 	assert(bufferSz == reqSz);
-	spdlog::trace("Loaded device interface detail (Size {})", bufferSz);
+	//spdlog::trace("Loaded device interface detail (Size {})", bufferSz);
 
-	spdlog::trace("Opening device handle");
+	//spdlog::trace("Opening device handle");
 	if (open()) {
 		HidD_GetPreparsedData(handle, &ppd);
 		HidP_GetCaps(ppd, &caps);
@@ -54,7 +53,7 @@ std::wstring HiDevice::getProductString() {
 
 	}
 
-	spdlog::trace("Getting product string for device");
+	//spdlog::trace("Getting product string for device");
 
 	ULONG bufferSz = 255 * sizeof(CHAR);
 	LPWSTR buffer = (LPWSTR)malloc(bufferSz);
@@ -80,7 +79,7 @@ void HiDevice::getUsages(USAGE usagePage, USHORT linkCollection) {
 	NTSTATUS usages = HidP_GetUsages(HidP_Feature, usagePage, linkCollection, usageList, &usageSz, ppd, report, 0);
 
 	if (usages == HIDP_STATUS_SUCCESS) {
-		spdlog::info("Got usages report: (R: {}, U: {})", reportSz, usageSz);
+		//spdlog::info("Got usages report: (R: {}, U: {})", reportSz, usageSz);
 	} else {
 		std::string errorStr;
 
@@ -108,7 +107,7 @@ void HiDevice::getUsages(USAGE usagePage, USHORT linkCollection) {
 			break;
 		}
 
-		spdlog::warn("Unable to get usages: {}", errorStr);
+		//spdlog::warn("Unable to get usages: {}", errorStr);
 	}
 }
 
@@ -133,7 +132,7 @@ bool HiDevice::open() {
 		shareMode = FILE_SHARE_READ | FILE_SHARE_WRITE;
 
 	if (detail->DevicePath == NULL) {
-		spdlog::error("Unable to open device. No path to device.");
+		//spdlog::error("Unable to open device. No path to device.");
 		return false;
 	}
 
@@ -148,7 +147,7 @@ bool HiDevice::open() {
 	);
 
 	if (handle == INVALID_HANDLE_VALUE) {
-		spdlog::error("Unable to open device: {}", GetLastError());
+		//spdlog::error("Unable to open device: {}", GetLastError());
 		return false;
 	}
 

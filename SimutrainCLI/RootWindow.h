@@ -1,22 +1,18 @@
 #pragma once
 
+#include "imgui.h"
+
 namespace Ui {
-	class RootWindow
-	{
-	public:
-		RootWindow();
-		void initialize();
-		~RootWindow();
+	namespace RootWindow {
+		void Render();
 
-	private:
-		bool active;
-	};
-
-	typedef enum InitResult {
-		UI_INIT_OK,
-		ERR_D3D_FAILURE
-	} InitResult;
-
-	InitResult Startup();
+		typedef struct State {
+			bool open = 0;
+			bool debugEnabled = 0;
+			bool statsEnabled = 0;
+			bool imguiDemo = 0;
+			int selectedDevice = -1;
+			size_t deviceCount = 0;
+		} State;
+	}
 }
-

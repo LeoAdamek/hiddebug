@@ -19,8 +19,8 @@ public:
 	DeviceManager();
 	~DeviceManager();
 	size_t loadDevices();
+	std::vector<HiDevice*> devices;
 private:
 	HMODULE hidModuleHandle;
-	std::vector<HiDevice*> devices;
 };
 

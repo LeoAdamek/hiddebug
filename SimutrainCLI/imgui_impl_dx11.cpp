@@ -588,9 +588,9 @@ void ImGui_ImplDX11_Shutdown()
     IM_DELETE(bd);
 }
 
-void ImGui_ImplDX11_NewFrame()/lib
-{                             /lib
-    ImGui_ImplDX11_Data* bd = /libImGui_ImplDX11_GetBackendData();
+void ImGui_ImplDX11_NewFrame()
+{                             
+    ImGui_ImplDX11_Data* bd = ImGui_ImplDX11_GetBackendData();
     IM_ASSERT(bd != nullptr && "Did you call ImGui_ImplDX11_Init()?");
 
     if (!bd->pFontSampler)

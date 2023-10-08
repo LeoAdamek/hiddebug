@@ -517,20 +517,6 @@ static ImGuiKey ImGui_ImplWin32_VirtualKeyToImGuiKey(WPARAM wParam)
         case VK_F10: return ImGuiKey_F10;
         case VK_F11: return ImGuiKey_F11;
         case VK_F12: return ImGuiKey_F12;
-        case VK_F13: return ImGuiKey_F13;
-        case VK_F14: return ImGuiKey_F14;
-        case VK_F15: return ImGuiKey_F15;
-        case VK_F16: return ImGuiKey_F16;
-        case VK_F17: return ImGuiKey_F17;
-        case VK_F18: return ImGuiKey_F18;
-        case VK_F19: return ImGuiKey_F19;
-        case VK_F20: return ImGuiKey_F20;
-        case VK_F21: return ImGuiKey_F21;
-        case VK_F22: return ImGuiKey_F22;
-        case VK_F23: return ImGuiKey_F23;
-        case VK_F24: return ImGuiKey_F24;
-        case VK_BROWSER_BACK: return ImGuiKey_AppBack;
-        case VK_BROWSER_FORWARD: return ImGuiKey_AppForward;
         default: return ImGuiKey_None;
     }
 }
