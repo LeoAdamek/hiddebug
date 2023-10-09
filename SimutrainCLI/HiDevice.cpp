@@ -67,50 +67,6 @@ std::wstring HiDevice::getProductString() {
 	return str;
 }
 
-void HiDevice::getUsages(USAGE usagePage, USHORT linkCollection) {
-	ULONG reportSz = caps.FeatureReportByteLength,
-		usageSz = reportSz * sizeof(USAGE);
-
-	USAGE *usageList = (USAGE*)malloc(usageSz);
-	PCHAR report = (PCHAR)malloc(reportSz);
-
-	ZeroMemory(report, reportSz);
-
-	NTSTATUS usages = HidP_GetUsages(HidP_Feature, usagePage, linkCollection, usageList, &usageSz, ppd, report, 0);
-
-	if (usages == HIDP_STATUS_SUCCESS) {
-		//spdlog::info("Got usages report: (R: {}, U: {})", reportSz, usageSz);
-	} else {
-		std::string errorStr;
-
-		switch (usages) {
-		case HIDP_STATUS_INVALID_REPORT_LENGTH:
-			errorStr = "invalid report length";
-			break;
-		case HIDP_STATUS_INVALID_REPORT_TYPE:
-			errorStr = "invalid report type";
-			break;
-		case HIDP_STATUS_BUFFER_TOO_SMALL:
-			errorStr = "buffer too small";
-			break;
-		case HIDP_STATUS_INVALID_PREPARSED_DATA:
-			errorStr = "invalid preparsed data";
-			break;
-		case HIDP_STATUS_INCOMPATIBLE_REPORT_ID:
-			errorStr = "incompatible report id";
-			break;
-		case HIDP_STATUS_USAGE_NOT_FOUND:
-			errorStr = "usage not found";
-			break;
-		default:
-			errorStr = "some other error";
-			break;
-		}
-
-		//spdlog::warn("Unable to get usages: {}", errorStr);
-	}
-}
-
 bool HiDevice::isOpen() {
 	return _isOpen && handle != INVALID_HANDLE_VALUE;
 }
@@ -154,4 +110,28 @@ bool HiDevice::open() {
 	_isOpen = true;
 
 	return true;
+}
+
+bool HiDevice::getUsages(
+	HIDP_REPORT_TYPE reportType,
+	USAGE usagePage,
+	USHORT linkCollection,
+	USAGE **usageList,
+	PULONG usageListSz,
+	CHAR** report,
+	PULONG reportSz
+) {
+	return false;
+}
+
+NTSTATUS HiDevice::getButtonCaps(PHIDP_BUTTON_CAPS* buffer, PUSHORT bufferSz) {
+
+	*bufferSz = caps.NumberInputButtonCaps;
+	*buffer = (PHIDP_BUTTON_CAPS)calloc(*bufferSz, sizeof(HIDP_BUTTON_CAPS));
+	
+	return HidP_GetButtonCaps(HidP_Input, *buffer, bufferSz, ppd);
+}
+
+PHIDP_PREPARSED_DATA HiDevice::getPreparsedData() {
+	return ppd;
 }

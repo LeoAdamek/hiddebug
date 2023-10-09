@@ -189,6 +189,9 @@ bool CreateDeviceD3D(HWND hWnd) {
 }
 
 void Ui::Teardown() {
+
+    RootWindow::Teardown();
+
     ImGui_ImplDX11_Shutdown();
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
@@ -242,7 +245,7 @@ inline void logMetrics() {
 void Ui::Loop() {
 
 #ifdef ENABLE_METRICS
-    std::thread mx(logMetrics);
+    //std::thread mx(logMetrics);
 #endif
 
 	while (!done) {

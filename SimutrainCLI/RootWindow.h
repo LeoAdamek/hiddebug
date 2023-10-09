@@ -5,6 +5,7 @@
 namespace Ui {
 	namespace RootWindow {
 		void Render();
+		void Teardown();
 
 		typedef struct State {
 			bool open = 0;

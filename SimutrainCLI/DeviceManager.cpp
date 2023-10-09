@@ -49,11 +49,11 @@ size_t DeviceManager::loadDevices() {
 		}
 
 		auto device = new HiDevice(deviceInfo, deviceData);
-		devices.push_back(device);
 
 
 		if (device->isOpen()) {
 			auto caps = device->getCaps();
+			devices.push_back(device);
 			//spdlog::trace("------------ Device Information ---------");
 			//spdlog::trace(L"Name: {}", device->getProductString());
 			//spdlog::trace(L"Input Report Length: {}", caps.InputReportByteLength);
@@ -74,5 +74,5 @@ size_t DeviceManager::loadDevices() {
 
 	}
 
-	return i;
+	return devices.size();
 }
