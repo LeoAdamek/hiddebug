@@ -51,15 +51,21 @@ public:
 
 	// Get the device capabilities
 	HIDP_CAPS getCaps();
-	PHIDP_PREPARSED_DATA getPreparsedData();
 
 	// Check if the device is open
 	bool isOpen();
 
 	NTSTATUS getButtonCaps(
-		OUT _Out_writes_bytes_(bufferSz * sizeoF(HIDP_BUTTON_CAPS)) PHIDP_BUTTON_CAPS* buffer,
+		OUT _Out_writes_bytes_(bufferSz * sizeof(HIDP_BUTTON_CAPS)) PHIDP_BUTTON_CAPS* buffer,
 		IN OUT PUSHORT bufferSz
 	);
+
+	NTSTATUS getValueCaps(
+		OUT _Out_writes_bytes_(bufferSz * sizeof(HIDP_VALUE_CAPS)) PHIDP_VALUE_CAPS* buffer,
+		IN OUT PUSHORT bufferSz
+	);
+
+	bool flush(void);
 
 	// Get Usages
 	bool getUsages(
@@ -71,6 +77,11 @@ public:
 		OUT CHAR** report,
 		IN OUT PULONG reportSz
 	);
+
+
+	bool getInputReport(OUT void *buffer, ULONG bufferSz);
+	bool getFeature(OUT void* buffer, ULONG bufferSz);
+	bool getIndexedString(ULONG index, OUT PVOID buffer, IN ULONG bufferSz);
 protected:
 	bool _isOpen;
 private:

@@ -23,10 +23,6 @@
 #define INITIAL_WIDTH 1280
 #define INITIAL_HEIGHT 800
 
-#if (_DEBUG)
-#define ENABLE_METRICS
-#endif
-
 static ID3D11Device* d3dDevice = nullptr;
 static ID3D11DeviceContext* d3dDeviceContext = nullptr;
 static IDXGISwapChain* d3dSwapChain = nullptr;
@@ -50,10 +46,6 @@ typedef struct RenderMetrics {
     std::atomic<size_t> frames;
     std::atomic<size_t> vertices;
 } RenderMetrics;
-
-#ifdef ENABLE_METRICS
-static RenderMetrics metrics;
-#endif
 
 void Render();
 
@@ -213,8 +205,10 @@ void CreateRenderTarget()
     ID3D11Texture2D* backBuffer;
     d3dSwapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer));
     d3dDevice->CreateRenderTargetView(backBuffer, nullptr, &mainRenderTargetView);
+
     backBuffer->Release();
 }
+
 
 void CleanupRenderTarget()
 {
@@ -222,31 +216,7 @@ void CleanupRenderTarget()
 }
 
 
-inline void logMetrics() {
-#ifdef ENABLE_METRICS
-    size_t st;
-
-	while (!done) {
-		st = metrics.frames.load();
-		std::cout << "Frame #" << st << " ";
-
-		st = metrics.vertices.load();
-		std::cout << "Vertices: " << st;
-
-		std::cout << "\r" << std::flush;
-
-		std::this_thread::sleep_for(std::chrono::microseconds(16670)); // 1/60s
-	}
-
-#endif
-}
-
-
 void Ui::Loop() {
-
-#ifdef ENABLE_METRICS
-    //std::thread mx(logMetrics);
-#endif
 
 	while (!done) {
 		MSG msg;
@@ -285,13 +255,10 @@ void Ui::Loop() {
         ImGui::Render();
         ImDrawData* drawData = ImGui::GetDrawData();
         
- #ifdef ENABLE_METRICS
-        metrics.frames.fetch_add(1);
-        metrics.vertices.fetch_add(drawData->TotalVtxCount);
-#endif
-
         ImGui_ImplDX11_RenderDrawData(drawData);
-        d3dSwapChain->Present(1, 0);
+        d3dSwapChain->Present(0, 0);
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(22)); // 12.5ms (1/80s)
 	}
 }
 

@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClCompile Include="DeviceManager.cpp" />
     <ClCompile Include="HiDevice.cpp" />
+    <ClCompile Include="HidUsageNames.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="imgui_demo.cpp" />
     <ClCompile Include="imgui_draw.cpp" />
@@ -154,6 +155,7 @@
   <ItemGroup>
     <ClInclude Include="DeviceManager.h" />
     <ClInclude Include="HiDevice.h" />
+    <ClInclude Include="HidUsageNames.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
     <ClInclude Include="imgui_impl_dx11.h" />

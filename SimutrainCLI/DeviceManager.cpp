@@ -50,7 +50,6 @@ size_t DeviceManager::loadDevices() {
 
 		auto device = new HiDevice(deviceInfo, deviceData);
 
-
 		if (device->isOpen()) {
 			auto caps = device->getCaps();
 			devices.push_back(device);
@@ -71,6 +70,7 @@ size_t DeviceManager::loadDevices() {
 			//spdlog::info("Finished enumerating all devices");
 			break;
 		}
+
 
 	}
 

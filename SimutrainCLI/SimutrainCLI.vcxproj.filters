@@ -54,6 +54,9 @@
     <ClCompile Include="RootWindow.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="HidUsageNames.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DeviceManager.h">
@@ -91,6 +94,9 @@
     </ClInclude>
     <ClInclude Include="RootWindow.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="HidUsageNames.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

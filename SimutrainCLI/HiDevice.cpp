@@ -124,7 +124,10 @@ bool HiDevice::getUsages(
 	return false;
 }
 
-NTSTATUS HiDevice::getButtonCaps(PHIDP_BUTTON_CAPS* buffer, PUSHORT bufferSz) {
+NTSTATUS HiDevice::getButtonCaps(
+		OUT _Out_writes_bytes_(bufferSz * sizeof(HIDP_BUTTON_CAPS)) PHIDP_BUTTON_CAPS* buffer,
+		IN OUT PUSHORT bufferSz
+) {
 
 	*bufferSz = caps.NumberInputButtonCaps;
 	*buffer = (PHIDP_BUTTON_CAPS)calloc(*bufferSz, sizeof(HIDP_BUTTON_CAPS));
@@ -132,6 +135,25 @@ NTSTATUS HiDevice::getButtonCaps(PHIDP_BUTTON_CAPS* buffer, PUSHORT bufferSz) {
 	return HidP_GetButtonCaps(HidP_Input, *buffer, bufferSz, ppd);
 }
 
-PHIDP_PREPARSED_DATA HiDevice::getPreparsedData() {
-	return ppd;
+NTSTATUS HiDevice::getValueCaps(PHIDP_VALUE_CAPS* buffer, PUSHORT bufferSz) {
+	*bufferSz = caps.NumberInputValueCaps;
+	*buffer = (PHIDP_VALUE_CAPS)calloc(*bufferSz, sizeof(HIDP_VALUE_CAPS));
+
+	return HidP_GetValueCaps(HidP_Input, *buffer, bufferSz, ppd);
+}
+
+bool HiDevice::getInputReport(OUT void *buffer, ULONG bufferSz) {
+	return HidD_GetInputReport(handle, buffer, bufferSz);
+}
+
+bool HiDevice::getFeature(OUT void *buffer, ULONG bufferSz) {
+	return HidD_GetFeature(handle, buffer, bufferSz);
+}
+
+bool HiDevice::getIndexedString(ULONG index, OUT PVOID buffer, IN ULONG bufferSz) {
+	return HidD_GetIndexedString(handle, index, buffer, bufferSz);
+}
+
+bool HiDevice::flush(void) {
+	return HidD_FlushQueue(handle);
 }
